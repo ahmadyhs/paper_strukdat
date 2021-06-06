@@ -1,6 +1,6 @@
 # paper_strukdat
 
-tree.hpp - letak function struktur data tree
+struct.hpp - letak function struktur data
 
 function.hpp - tempat function untuk jalannya program di main.cpp
 
