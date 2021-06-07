@@ -8,7 +8,7 @@ main(){
     int jumlah, i , j = 0, banyakmhs;
     createListMhs(First);
 
-    std::cout<<"\nProgram ....\n";
+    std::cout<<"\nProgram decision tree analisis mahasiswa dropout\n";
     std::cout<<"\nBerapa banyak mahasiswa yang ingin diinput?\nJumlah mahasiswa = ";
     std::cin>>banyakmhs;
 

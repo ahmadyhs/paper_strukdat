@@ -167,6 +167,8 @@ void treeAsalSklh(listmhs First, tree& decision){ //tree untuk asal sekolah deng
     }
   }
 
-
 }
+
+//fungsi dibawah untuk decision tree
+//...
 
