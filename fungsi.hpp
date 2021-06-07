@@ -46,6 +46,9 @@ void showmhs(listmhs First){
   }
 }
 
+
+//funsi-fungsi untuk membuat tree dari beberapa atribut
+
 void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
   tree b, c;
   createtree(b);
@@ -163,6 +166,7 @@ void treeAsalSklh(listmhs First, tree& decision){ //tree untuk asal sekolah deng
       First = First->next;
     }
   }
+
 
 }
 
