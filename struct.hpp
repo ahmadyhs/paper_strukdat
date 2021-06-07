@@ -11,7 +11,7 @@ struct mahasiswa{
     std::string asalsklh;
     float ipk;
     int pendapatanortu;
-    std::string statusdo; //status drop out atau aktif 
+    std::string statusdo; //status dropout atau aktif 
     mahasiswa* next;
 };
 
