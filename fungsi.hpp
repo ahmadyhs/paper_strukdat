@@ -83,8 +83,8 @@ void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingka
       } else {
         c->aktif += 1;
       }
-      First = First->next;
     }
+    First = First->next;
   }
 
 }
@@ -123,8 +123,8 @@ void treePendapatan(listmhs First, tree& decision){ //tree untuk pendapatan deng
       } else {
         c->aktif += 1;
       }
-      First = First->next;
     }
+    First = First->next;
   }
 
 }
@@ -163,8 +163,8 @@ void treeAsalSklh(listmhs First, tree& decision){ //tree untuk asal sekolah deng
       } else {
         c->aktif += 1;
       }
-      First = First->next;
     }
+    First = First->next;
   }
 
 }
