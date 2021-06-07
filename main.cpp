@@ -2,7 +2,7 @@
 #include "fungsi.hpp"
 
 main(){
-    tree decision;
+    tree decision, tripk, trpendapatan, trasalsklh;
     listmhs First;
     listmhs ptrBaru, tes;
     int jumlah, i , j = 0, banyakmhs;
@@ -22,6 +22,19 @@ main(){
         insertFirstMhs(First, ptrBaru);
         j++;
     }
+
+    showmhs(First);
+    
+    createtree(tripk);
+    treeIpk(First, tripk);
+    
+    createtree(trpendapatan);
+    treePendapatan(First, trpendapatan);
+
+    createtree(trasalsklh);
+    treeAsalSklh(First, trasalsklh);
+
+    
 
     return 0;
 }

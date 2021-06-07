@@ -1,18 +1,19 @@
-struct tree{
+struct pohon{
     std::string atribut;
     int aktif;
     int DO;
-    tree* leaf;
+    pohon* leaf;
 };
 
 struct mahasiswa{
     std::string namamhs;
     int npm;
     std::string asalsklh;
-    int ipk;
+    float ipk;
     int pendapatanortu;
     std::string statusdo; //status drop out atau aktif 
     mahasiswa* next;
 };
 
 typedef mahasiswa* listmhs;
+typedef pohon* tree; 
