@@ -46,8 +46,8 @@ void showmhs(listmhs First){
   }
 }
 
-
 //funsi-fungsi untuk membuat tree dari beberapa atribut
+//hanya untuk mendata mahasiswa yg DO atau aktif berdasar IPK / pendapatan ortu / asal sekolah
 
 void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
   tree b, c;
