@@ -13,6 +13,8 @@ struct mahasiswa{
     int pendapatanortu;
     std::string statusdo; //status dropout atau aktif 
     mahasiswa* next;
+    int poin = 0;
+    bool prediksido;
 };
 
 typedef mahasiswa* listmhs;

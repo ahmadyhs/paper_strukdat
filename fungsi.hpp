@@ -60,7 +60,7 @@ void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingka
   while (First != nullptr){
     if(First->ipk > 3 && First->ipk <= 4){ //gol ipk A
       decision->atribut = "ipk A";
-      
+      First->poin += 3;
       if(First->statusdo == "Dropout"){
         decision->DO += 1;
       } else {
@@ -69,7 +69,7 @@ void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingka
 
     } else if(First->ipk > 2.5 && First->ipk <= 3){ //gol ipk B
       b->atribut = "ipk B";
-
+      First->poin += 2;
       if(First->statusdo == "Dropout"){
         b->DO += 1;
       } else {
@@ -78,6 +78,7 @@ void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingka
 
     } else if(First->ipk > 0 && First->ipk <= 2.5){ //gol ipk C
       c->atribut = "ipk C";
+      First->poin += 1;
       if(First->statusdo == "Dropout"){
         c->DO += 1;
       } else {
@@ -100,7 +101,7 @@ void treePendapatan(listmhs First, tree& decision){ //tree untuk pendapatan deng
   while (First != nullptr){
     if(First->pendapatanortu > 3500000){ //gol pendapatan ortu A
       decision->atribut = "pendapatan A";
-      
+      First->poin += 3;
       if(First->statusdo == "Dropout"){
         decision->DO += 1;
       } else {
@@ -109,7 +110,7 @@ void treePendapatan(listmhs First, tree& decision){ //tree untuk pendapatan deng
 
     } else if(First->pendapatanortu > 2100000 && First->pendapatanortu <= 3500000){ //gol pendapatan ortu B
       b->atribut = "pendapatan B";
-
+      First->poin += 2;
       if(First->statusdo == "Dropout"){
         b->DO += 1;
       } else {
@@ -118,6 +119,7 @@ void treePendapatan(listmhs First, tree& decision){ //tree untuk pendapatan deng
 
     } else if(First->pendapatanortu <= 2100000){ //gol pendapatan ortu C
       c->atribut = "pendapatan C";
+      First->poin += 1;
       if(First->statusdo == "Dropout"){
         c->DO += 1;
       } else {
@@ -171,4 +173,26 @@ void treeAsalSklh(listmhs First, tree& decision){ //tree untuk asal sekolah deng
 
 //fungsi dibawah untuk decision tree
 //...
+void prediksiDO(listmhs First){
+  while(First!=nullptr){
+    if(First->poin >= 4 && First->poin <= 6){
+      First->prediksido = false;
+    }
+    else if(First->poin < 4){
+      First->prediksido = true;
+    }
+    First = First->next;
+  }
+}
 
+void periksaPrediksi(listmhs First){
+  while(First!=nullptr){
+    if(First->prediksido == true){
+      std::cout<<"Mahasiswa diprediksi dropout"<<std::endl;
+    }
+    else if(First->prediksido == false){
+      std::cout<<"Mahasiswa diprediksi tidak dropout"<<std::endl;
+    }
+    First = First->next;
+  }
+}

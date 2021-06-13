@@ -34,7 +34,8 @@ main(){
     createtree(trasalsklh);
     treeAsalSklh(First, trasalsklh);
 
-    
+    prediksiDO(First);
+    periksaPrediksi(First);
 
     return 0;
 }
