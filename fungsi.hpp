@@ -1,28 +1,26 @@
 #include "struct.hpp"
 
-void createtree(tree& t){
-  t->atribut = " ";
+tree createElementTree(tree& t, std::string isi){ //input data tree
+  t = new pohon;
+  t->atribut = isi;
   t->DO = 0;
   t->aktif = 0;
   t->leaf = nullptr;
+  return t;
 }
 
-void createListMhs(listmhs& First){
-  First = nullptr;
-}
-
-void createElementMhs(listmhs& mhsBaru){
+void createElementMhs(listmhs& mhsBaru){ //input data mahasiswa
   mhsBaru = new mahasiswa;
   std::cout << "\nMasukkan NPM Mahasiswa = "; std::cin >> mhsBaru->npm;
-  std::cout << "\nMasukkan nama Mahasiswa = "; std::cin >> mhsBaru->namamhs;
-  std::cout << "\nMasukkan asal sekolah Mahasiswa = "; std::cin >> mhsBaru->asalsklh;
-  std::cout << "\nMasukkan IPK Mahasiswa = "; std::cin >> mhsBaru->ipk;
-  std::cout << "\nMasukkan pendapatan orang tua Mahasiswa = "; std::cin >> mhsBaru->pendapatanortu;
+  std::cout << "Masukkan nama Mahasiswa = "; std::cin >> mhsBaru->namamhs;
+  std::cout << "Masukkan asal sekolah Mahasiswa (SMA/MA/sederajat) = "; std::cin >> mhsBaru->asalsklh;
+  std::cout << "Masukkan IPK Mahasiswa = "; std::cin >> mhsBaru->ipk;
+  std::cout << "Masukkan pendapatan orang tua Mahasiswa = "; std::cin >> mhsBaru->pendapatanortu;
+  std::cout << "Masukkan status Mahasiswa (DO/aktif) = "; std::cin >> mhsBaru->statusdo;
   mhsBaru->next = nullptr;
 }
 
 void insertFirstMhs(listmhs& First, listmhs mhsBaru){
-  
   //kalau list kosong
   if (First == nullptr)
   {
@@ -37,49 +35,73 @@ void insertFirstMhs(listmhs& First, listmhs mhsBaru){
   std::cout << "Mahasiswa sudah dimasukkan ke List.\n"; //jika input berhasil
 }
 
-void showmhs(listmhs First){
+void insertTree(tree& t, tree baru){ //insert cabang baru pada root
+  
+  if (t == nullptr) // jika tree null
+  {
+    t = baru;
+  }
+  
+  else  // jika tree sudah ada isi
+  {
+    baru->leaf = t;
+    t = baru;
+  }
+}
+
+void showmhs(listmhs First){ // menampilkan data mahasiswa nama dan npm
   std::cout << "\nList mahasiswa  : \n";
   while(First != nullptr){
-    std::cout << "\nNPM" << First->npm;
-    std::cout << "\nNama" << First->namamhs << "\n";
+    std::cout << "\nNPM : " << First->npm;
+    std::cout << "\tNama : " << First->namamhs;
     First = First->next;
   }
 }
 
-//funsi-fungsi untuk membuat tree dari beberapa atribut
-//hanya untuk mendata mahasiswa yg DO atau aktif berdasar IPK / pendapatan ortu / asal sekolah
+void showtree(tree T){ // menampilkan data status mahasiswa terhadap atribut faktor
+  std::cout << "\nData status mahasiswa terhadap atribut";
+  while(T != nullptr){
+    std::cout << "\n" << T->atribut << "\n>> DO = " << T->DO;
+    std::cout << " aktif = " << T->aktif << "\n";
+    T = T->leaf;
+  }
+  std::cout << "\n";
+}
 
-void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
-  tree b, c;
-  createtree(b);
-  createtree(c);
+// dibawah adalah funsi-fungsi untuk membuat tree dari beberapa atribut
+// hanya untuk mendata mahasiswa yg DO atau aktif berdasar IPK / pendapatan ortu / asal sekolah
 
-  decision->leaf = b;
-  b->leaf = c;
+void treeIpk(listmhs First, tree& T){ //tree untuk ipk dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
+  tree a, b, c;
+ 
+  a = createElementTree(a,"ipk A (3 - 4)");
+  b = createElementTree(b,"ipk B (2,5 - 3)");
+  c = createElementTree(c, "ipk C (0 - 2,5)");
+
+  insertTree(T,c);
+  insertTree(T,b);
+  insertTree(T,a);
 
   while (First != nullptr){
     if(First->ipk > 3 && First->ipk <= 4){ //gol ipk A
-      decision->atribut = "ipk A";
-      First->poin += 3;
-      if(First->statusdo == "Dropout"){
-        decision->DO += 1;
+      
+      if(First->statusdo == "DO" || First->statusdo == "do"){
+        a->DO += 1;
       } else {
-        decision->aktif += 1;
+        a->aktif += 1;
       }
 
     } else if(First->ipk > 2.5 && First->ipk <= 3){ //gol ipk B
-      b->atribut = "ipk B";
-      First->poin += 2;
-      if(First->statusdo == "Dropout"){
+
+      if(First->statusdo == "DO" || First->statusdo == "do"){
         b->DO += 1;
       } else {
         b->aktif += 1;
       }
 
     } else if(First->ipk > 0 && First->ipk <= 2.5){ //gol ipk C
-      c->atribut = "ipk C";
-      First->poin += 1;
-      if(First->statusdo == "Dropout"){
+      
+      if(First->statusdo == "DO" || First->statusdo == "do"){
         c->DO += 1;
       } else {
         c->aktif += 1;
@@ -87,40 +109,41 @@ void treeIpk(listmhs First, tree& decision){ //tree untuk ipk dengan tiap tingka
     }
     First = First->next;
   }
-
+  
 }
 
-void treePendapatan(listmhs First, tree& decision){ //tree untuk pendapatan dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
-  tree b, c;
-  createtree(b);
-  createtree(c);
 
-  decision->leaf = b;
-  b->leaf = c;
+void treePendapatan(listmhs First, tree& T){ //tree untuk pendapatan dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
+  tree a, b, c;
+ 
+  a = createElementTree(a,"pendapatan A (>3.500.000)");
+  b = createElementTree(b,"pendapatan B (2.100.000 - 3.500.000)");
+  c = createElementTree(c, "pendapatan C (0 - 2.100.000)");
+
+  insertTree(T,c);
+  insertTree(T,b);
+  insertTree(T,a);
 
   while (First != nullptr){
     if(First->pendapatanortu > 3500000){ //gol pendapatan ortu A
-      decision->atribut = "pendapatan A";
-      First->poin += 3;
-      if(First->statusdo == "Dropout"){
-        decision->DO += 1;
+      
+      if(First->statusdo == "DO" || First->statusdo == "do"){
+        a->DO += 1;
       } else {
-        decision->aktif += 1;
+        a->aktif += 1;
       }
 
     } else if(First->pendapatanortu > 2100000 && First->pendapatanortu <= 3500000){ //gol pendapatan ortu B
-      b->atribut = "pendapatan B";
-      First->poin += 2;
-      if(First->statusdo == "Dropout"){
+
+      if(First->statusdo == "DO" || First->statusdo == "do"){
         b->DO += 1;
       } else {
         b->aktif += 1;
       }
 
     } else if(First->pendapatanortu <= 2100000){ //gol pendapatan ortu C
-      c->atribut = "pendapatan C";
-      First->poin += 1;
-      if(First->statusdo == "Dropout"){
+  
+      if(First->statusdo == "DO" || First->statusdo == "do"){
         c->DO += 1;
       } else {
         c->aktif += 1;
@@ -131,36 +154,37 @@ void treePendapatan(listmhs First, tree& decision){ //tree untuk pendapatan deng
 
 }
 
-void treeAsalSklh(listmhs First, tree& decision){ //tree untuk asal sekolah dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
-  tree b, c;
-  createtree(b);
-  createtree(c);
+void treeAsalSklh(listmhs First, tree& T){ //tree untuk asal sekolah dengan tiap tingkat akan dihitung jumlah mhs aktif dan DO
+  tree a, b, c;
+ 
+  a = createElementTree(a,"asal sekolah SMA");
+  b = createElementTree(b,"asal sekolah MA");
+  c = createElementTree(c, "asal sekolah selain SMA & MA");
 
-  decision->leaf = b;
-  b->leaf = c;
+  insertTree(T,c);
+  insertTree(T,b);
+  insertTree(T,a);
 
   while (First != nullptr){
     if(First->asalsklh == "SMA" || First->asalsklh == "sma"){ //gol asal sekolah SMA
-      decision->atribut = "asal sekolah SMA";
       
-      if(First->statusdo == "Dropout"){
-        decision->DO += 1;
+      if(First->statusdo == "DO" || First->statusdo == "do"){
+        a->DO += 1;
       } else {
-        decision->aktif += 1;
+        a->aktif += 1;
       }
 
     } else if(First->asalsklh == "MA" || First->asalsklh == "ma" ){ //gol asal sekolah MA
-      b->atribut = "asal sekolah MA";
 
-      if(First->statusdo == "Dropout"){
+      if(First->statusdo == "DO" || First->statusdo == "do"){
         b->DO += 1;
       } else {
         b->aktif += 1;
       }
 
     } else{ //gol asal sekolah selain SMA dan MA
-      c->atribut = "asal sekolah selain SMA & MA";
-      if(First->statusdo == "Dropout"){
+
+      if(First->statusdo == "DO" || First->statusdo == "do"){
         c->DO += 1;
       } else {
         c->aktif += 1;
@@ -171,28 +195,34 @@ void treeAsalSklh(listmhs First, tree& decision){ //tree untuk asal sekolah deng
 
 }
 
-//fungsi dibawah untuk decision tree
-//...
-void prediksiDO(listmhs First){
-  while(First!=nullptr){
-    if(First->poin >= 4 && First->poin <= 6){
-      First->prediksido = false;
-    }
-    else if(First->poin < 4){
-      First->prediksido = true;
-    }
-    First = First->next;
-  }
-}
+void decision(tree a, tree b, tree c){ // fungsi yang menentukan decision dari faktor paling berpengaruh tehadap drop out
+  int DOipk, DOpendapatan, DOasal;
+  DOipk = DOpendapatan = DOasal= 0;
 
-void periksaPrediksi(listmhs First){
-  while(First!=nullptr){
-    if(First->prediksido == true){
-      std::cout<<"Mahasiswa diprediksi dropout"<<std::endl;
+  while(a != nullptr){
+    if(DOipk < a->DO){
+      DOipk = a->DO;
     }
-    else if(First->prediksido == false){
-      std::cout<<"Mahasiswa diprediksi tidak dropout"<<std::endl;
+    a = a->leaf;
+  }
+  while(b != nullptr){
+    if(DOpendapatan < b->DO){
+      DOpendapatan = b->DO;
     }
-    First = First->next;
+    b = b->leaf;
+  }
+  while(c != nullptr){
+    if(DOasal < c->DO){
+      DOasal = c->DO;
+    }
+    c = c->leaf;
+  }
+
+  if (DOipk >= DOasal && DOipk > DOpendapatan){
+    std::cout << "\nFaktor paling berpengaruh terhadap mahasiswa yang Drop Out adalah IPK\n";
+  } else if (DOasal >= DOipk && DOasal >= DOpendapatan){
+    std::cout << "\nFaktor paling berpengaruh terhadap mahasiswa yang Drop Out adalah asal sekolah\n";
+  } else if (DOpendapatan >= DOasal && DOpendapatan >= DOipk){
+    std::cout << "\nFaktor paling berpengaruh terhadap mahasiswa yang Drop Out adalah pendapatan Orang tua\n";
   }
 }

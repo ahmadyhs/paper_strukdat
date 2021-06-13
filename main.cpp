@@ -2,40 +2,43 @@
 #include "fungsi.hpp"
 
 main(){
-    tree decision, tripk, trpendapatan, trasalsklh;
+    tree tripk, trpendapatan, trasalsklh;
     listmhs First;
     listmhs ptrBaru, tes;
-    int jumlah, i , j = 0, banyakmhs;
-    createListMhs(First);
+    int j = 0, banyakmhs;
+    
+    First = nullptr;
+    tripk = trasalsklh = trpendapatan = nullptr;
 
-    std::cout<<"\nProgram decision tree analisis mahasiswa dropout\n";
+    std::cout<<"\n----Program decision tree analisis mahasiswa dropout----\n";
     std::cout<<"\nBerapa banyak mahasiswa yang ingin diinput?\nJumlah mahasiswa = ";
     std::cin>>banyakmhs;
 
     if(banyakmhs<1){
         std::cout<< "\nInput salah";
+        return 0;
     }
 
-    while(banyakmhs >= 1 && j < banyakmhs){
-        std::cout<<"\nMahasiswa #" << j+1;
+    while(j < banyakmhs){    // untuk looping input data mahasiswa
+        std::cout<<"\nMahasiswa #" << j+1 << "\n";
         createElementMhs(ptrBaru);
         insertFirstMhs(First, ptrBaru);
         j++;
     }
 
-    showmhs(First);
+    showmhs(First);         // menampilkan data npm dan nama mahasiswa
+    std::cout << "\n";
     
-    createtree(tripk);
-    treeIpk(First, tripk);
+    treeIpk(First, tripk);  // membuat tree untuk mendata status mahasiswa berdasar ipk
+    showtree(tripk);        // menampilkan data status mahasiswa berdasar ipk
     
-    createtree(trpendapatan);
-    treePendapatan(First, trpendapatan);
+    treePendapatan(First, trpendapatan);    // membuat tree untuk mendata status mahasiswa berdasar pendapatan ortu
+    showtree(trpendapatan);                 // menampilkan data status mahasiswa berdasar pendapatan ortu
 
-    createtree(trasalsklh);
-    treeAsalSklh(First, trasalsklh);
+    treeAsalSklh(First, trasalsklh);      // membuat tree untuk mendata status mahasiswa berdasar asal sekolah
+    showtree(trasalsklh);                 // menampilkan data status mahasiswa berdasar asal sekolah
 
-    prediksiDO(First);
-    periksaPrediksi(First);
+    decision(tripk, trpendapatan, trasalsklh); // decision dari faktor yang paling berpengaruh dari mahasiswa drop out
 
     return 0;
 }
